@@ -4,13 +4,15 @@
 #include <cstdlib>
 #include "GameEntry.hpp"
 #include "Scores.hpp"
-#include "Student.hpp"
+//#include "Student.hpp"
 
 using namespace std;
 
 void createArray(int boardNum);
 int negativeFunction(int score, int dice,int boardNum);
 int positiveFunction(int score, int dice, int boardNum);
+int perfectNumber(int num);
+int primeNumber(int num);
 int getDice();
 
 int main()
@@ -18,8 +20,8 @@ int main()
     int totalNum, diceNum, temp, newNum, currentScore;
     int numOfPlayers = 3;
     int count1 = 1;
-    int count2 = 1;
-    int count3 = 1;
+    // int count2 = 1;
+    // int count3 = 1;
     int completed = 2;
     srand(time(0));
     cout << "Enter highest number of the board game: ";
@@ -39,46 +41,47 @@ int main()
                 //Player 1 
                 cout << "\nRound " << count1 << endl;
                 cout << g1.getName() << " score is: " << g1.getScore() << endl;
-                diceNum = getDice();
+                cin >> diceNum;
+                // diceNum = getDice();
                 currentScore = g1.getScore();
                 temp = diceNum + currentScore;
-                temp = negativeFunction(temp, diceNum, totalNum);
                 temp = positiveFunction(temp, diceNum, totalNum);
+                temp = negativeFunction(temp, diceNum, totalNum);
                 g1.updateScore(temp, totalNum);
                 cout << g1.getName() << " score is: " << g1.getScore() << endl;
                 count1++;
             }
-            else if (g2.getScore() <= totalNum) { 
-                // Player 2
-                cout << "\nRound " << count2 << endl;
-                cout << g2.getName() << " score is: " << g2.getScore() << endl;
-                diceNum = getDice();
-                currentScore = g2.getScore();
-                temp = diceNum + currentScore;
-                temp = negativeFunction(temp, diceNum, totalNum);
-                temp = positiveFunction(temp, diceNum, totalNum);
-                g2.updateScore(temp, totalNum);
-                cout << g2.getName() << " score is: " << g2.getScore() << endl;
-                count2++;
-            }
-            else if (g3.getScore() <= totalNum){
-                // Player 3
-                cout << "\nRound " << count3 << endl;
-                cout << g3.getName() << " score is: " << g3.getScore() << endl;
-                diceNum = getDice();
-                currentScore = g3.getScore();
-                temp = diceNum + currentScore;
-                temp = negativeFunction(temp, diceNum, totalNum);
-                temp = positiveFunction(temp, diceNum, totalNum);
-                g3.updateScore(temp, totalNum);
-                cout << g3.getName() << " score is: " << g3.getScore() << endl;
-                count3++;
-            }
+            // else if (g2.getScore() <= totalNum) { 
+            //     // Player 2
+            //     cout << "\nRound " << count2 << endl;
+            //     cout << g2.getName() << " score is: " << g2.getScore() << endl;
+            //     diceNum = getDice();
+            //     currentScore = g2.getScore();
+            //     temp = diceNum + currentScore;
+            //     temp = negativeFunction(temp, diceNum, totalNum);
+            //     temp = positiveFunction(temp, diceNum, totalNum);
+            //     g2.updateScore(temp, totalNum);
+            //     cout << g2.getName() << " score is: " << g2.getScore() << endl;
+            //     count2++;
+            // }
+            // else if (g3.getScore() <= totalNum){
+            //     // Player 3
+            //     cout << "\nRound " << count3 << endl;
+            //     cout << g3.getName() << " score is: " << g3.getScore() << endl;
+            //     diceNum = getDice();
+            //     currentScore = g3.getScore();
+            //     temp = diceNum + currentScore;
+            //     temp = negativeFunction(temp, diceNum, totalNum);
+            //     temp = positiveFunction(temp, diceNum, totalNum);
+            //     g3.updateScore(temp, totalNum);
+            //     cout << g3.getName() << " score is: " << g3.getScore() << endl;
+            //     count3++;
+            // }
         }
         else{
             cout << "P1 won in round " << count1 << endl;
-            cout << "P2 won in round " << count2 << endl;
-            cout << "P3 won in round " << count3 << endl;
+            // cout << "P2 won in round " << count2 << endl;
+            // cout << "P3 won in round " << count3 << endl;
             completed++;
         }
     }
@@ -130,31 +133,46 @@ int getDice()
     return randomNumber;
 }
 
+int positiveFunction(int score, int dice, int boardNum)
+{
+    if (score < boardNum){
+        int sum = 0;
+
+        // Perfect Number
+        sum = perfectNumber(score);
+        
+        if (sum == score){
+            cout << score << " is a perfect number\n";
+            score = score + 15;
+            cout << score << " is your new score\n"; 
+        }
+        else if(score % 10 == 0){
+            // cout << score << " is divisble by 10\n";
+            score = score + 2;
+            cout << "\n" << score << " is your new score\n"; 
+        }
+        else
+            cout << "\n";
+        
+        return score;
+    }
+    else 
+        return score;
+}
+
 int negativeFunction(int score, int dice, int boardNum)
 {
     if (score < boardNum){
         int i, temp;
-        bool primeNum = true;
         temp = score;
         if (dice == 6)
         {
             return score;
         }
         else {
-            // 0 and 1 are not prime numbers
-            if (score <= 5) {
-                primeNum = false;
-            }
+            bool checkNum = primeNumber(score);
 
-            // loop to check if n is prime
-            for (i = 2; i <= score/2; ++i) {
-                if (score % i == 0) {
-                    primeNum = false;
-                    break;
-                }
-            }
-
-            if (primeNum && score % 7 == 0){
+            if (checkNum && score % 7 == 0){
                 // cout << score << " is a prime number and divisible by 7\n";
                 score = score - 8;
                 if (score <= 0)
@@ -163,9 +181,9 @@ int negativeFunction(int score, int dice, int boardNum)
                 }
                 cout << score << " is your new score\n";
             }
-            else if(primeNum){
-                // cout << score << " is a prime number\n";
-                score = score -5;
+            else if(checkNum){
+                cout << score << " is a prime number\n";
+                score = score - 5;
                 cout << score << " is your new score\n";
             }
             else if(score % 7 == 0 ){
@@ -179,12 +197,7 @@ int negativeFunction(int score, int dice, int boardNum)
             else{
                 cout << "\n";
             }
-            
-            // if (score != temp){
-            //     return score;
-            // }
-            // else
-            //     break;
+
             return score;
         }
     }
@@ -192,56 +205,36 @@ int negativeFunction(int score, int dice, int boardNum)
         return score;
 }
 
-int positiveFunction(int score, int dice, int boardNum)
+int perfectNumber(int num)
 {
-    if (score < boardNum){
-        int temp, i = 1,sum = 0;
-        temp = score;
-        // Perfect Number
-        for (int i = 1; i < score; i++){
-            if(score % i == 0)
+    int temp, sum = 0;
+    temp = num;
+    // Perfect Number
+    if (num > 0)
+        for (int i = 1; i < num; i++){
+            if(num % i == 0)
                 sum = sum + i;
         }
 
-        
-        if (sum == score){
-            // cout << score << " is a perfect number\n";
-            score = score + 15;
-            cout << score << " is your new score\n"; 
-        }
-        else if(score % 10 == 0){
-            // cout << score << " is divisble by 10\n";
-            score = score + 2;
-            cout << "\n" << score << " is your new score\n"; 
-        }
-        else
-            cout << "\n";
-        
-    
-        // if (score != temp){
-        //     return score;
-        // }
-        // else
-        //     break;
-        return score;
-    }
-    else 
-        return score;
+    return sum;
 }
 
-                // cout << "\nRound " << count3 << endl;
-                // cout << g3.getName() << " score is: " << g3.getScore() << endl;
-                // diceNum = getDice();
-                // currentScore = g3.getScore();
-                // temp = diceNum + currentScore;
-                // cout << "The number of diceNum is " << diceNum << "\n";
-                // cout << "The number of currentScore is " << currentScore << "\n";
-                // cout << "The number of temp is " << temp << "\n";
-                // cout << g3.getName() << " score is: " << g3.getScore() << endl;
-                // temp = negativeFunction(temp, diceNum);
-                // cout << "The number of temp1 is " << temp << "\n";
-                // temp = positiveFunction(temp);
-                // cout << "The number of temp2 is " << temp << "\n";
-                // g3.updateScore(temp);
-                // cout << g3.getName() << " score is: " << g3.getScore() << endl;
-                // count3++;
+int primeNumber(int num)
+{
+    bool is_prime = true;
+    // 0 and 1 are not prime numbers, in this case any number
+    // below 5 is not a prime number
+    if (num <= 5) {
+        is_prime = false;
+    }
+
+    // loop to check if n is prime
+    for (int i = 2; i <= num/2; i++) {
+        if (num % i == 0) {
+            is_prime = false;
+            break;
+        }
+    }
+
+    return is_prime;
+}
