@@ -2,20 +2,21 @@
 #define STUDENT_H
 #pragma once 
 
-#include "GameEntry.hpp"
+#include <string>
 
 using namespace std;
 
 
 class Student {
 public:
-    Student(const string& n="", int g=0, int sem);
+    Student(const string& n="", int g=0, int s=0);
     string getName() const;
     int getGPA() const;
     int getSemester() const;
+    void sortStudents();
 
-private:
     string name;
+private:
     int gpa;
     int semester;
 };

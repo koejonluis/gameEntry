@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "GameEntry.hpp"
 #include "Scores.hpp"
-//#include "Student.hpp"
+#include "Student.hpp"
 
 using namespace std;
 
