@@ -3,8 +3,8 @@
 
 using namespace std;
 
-GameEntry::GameEntry(const string& n, int s)
-  : Student(name), score(s) {} 
+GameEntry::GameEntry(const string& n, int g=0, int sem, int s=0)
+  : Student(name, gpa, semester), score(s) {} 
 
 string GameEntry::getName() const { return name; }
 

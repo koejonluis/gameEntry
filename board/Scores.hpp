@@ -11,8 +11,6 @@ public:
     Scores(int maxEnt = 10);                    // constructor
     ~Scores();                                  // destructor
     void add(const GameEntry& e);               // add a game entry         
-    int positiveFunction(int score);
-    int negativeFunction(int score);
     GameEntry remove(int i);                     // remove the ith entry
         // throw(IndexOutOfBounds);
               

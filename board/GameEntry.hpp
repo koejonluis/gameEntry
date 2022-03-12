@@ -9,7 +9,7 @@ using namespace std;
 
 class GameEntry: public Student{                               // a game score entry
 public:
-    GameEntry(const string& n="", int s=0);     // constructor
+    GameEntry(const string& n="", int g=0, int sem, int s=0);     // constructor
     string getName() const;                     // get player name
     string getSportName() const; 
     int getScore() const;                       // get score
