@@ -13,7 +13,8 @@ public:
     string getName() const;                     // get player name
     string getSportName() const; 
     int getScore() const;                       // get score
-    friend GameEntry comparePlayer(GameEntry player1, GameEntry player2);
+    friend void comparePlayer(GameEntry player1, GameEntry player2);
+    friend void operator<<(ostream& os, const GameEntry& ge);
     int updateScore(int diceScore, int boardNum);
 
 private:
